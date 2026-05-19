@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="color-scheme" content="light" />
+  <meta name="description" content="메모를 A4로 출력하거나 PDF로 저장하는 상세페이지입니다." />
+  <meta name="x-brand-title" content="메모 상세/출력" />
+  <title>메모 상세/출력 | 고해영 일병 구하기</title>
+  <link rel="canonical" href="https://savinghaey.co.kr/memo/detail.html" />
+  <link rel="icon" href="/static/favicon.ico" />
+  <link rel="stylesheet" href="/static/style.css?v=20260519-1" />
+  <script src="/static/footer.js"></script>
+  <script src="/static/global-loader.js?v=20260519-1"></script>
+  <script defer src="./detail.js?v=20260519-1"></script>
+  <style>
+    .memo-detail-page {
+      display: grid;
+      gap: var(--space-5);
+    }
+
+    .memo-detail-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-2);
+      align-items: center;
+      justify-content: space-between;
+      padding: var(--space-4);
+      border: 1px solid var(--border);
+      border-radius: var(--r-lg);
+      background: var(--surface);
+    }
+
+    .memo-detail-actions-left,
+    .memo-detail-actions-right {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-2);
+      align-items: center;
+    }
+
+    .print-sheet {
+      width: min(100%, 210mm);
+      min-height: 297mm;
+      margin: 0 auto;
+      padding: 18mm;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: var(--r-lg);
+      box-shadow: 0 20px 50px rgba(0,0,0,.06);
+    }
+
+    .print-head {
+      display: grid;
+      gap: var(--space-2);
+      padding-bottom: var(--space-5);
+      border-bottom: 2px solid #111;
+    }
+
+    .print-title {
+      margin: 0;
+      font-size: 26pt;
+      line-height: 1.22;
+      letter-spacing: -0.04em;
+    }
+
+    .print-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 16px;
+      color: #555;
+      font-size: 10.5pt;
+    }
+
+    .print-body {
+      padding-top: var(--space-5);
+      color: #111;
+      font-size: 12pt;
+      line-height: 1.8;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    .print-foot {
+      margin-top: 18mm;
+      padding-top: var(--space-3);
+      border-top: 1px solid #ddd;
+      color: #777;
+      font-size: 9.5pt;
+    }
+
+    .memo-missing {
+      text-align: center;
+      padding: var(--space-7);
+    }
+
+    @page {
+      size: A4;
+      margin: 18mm;
+    }
+
+    @media print {
+      html,
+      body {
+        background: #fff !important;
+      }
+
+      body {
+        margin: 0;
+      }
+
+      .site-header,
+      .site-footer,
+      .home-link-wrap,
+      .memo-detail-actions,
+      #brandBackToTop {
+        display: none !important;
+      }
+
+      .container,
+      body.brand-site .container {
+        max-width: none !important;
+        padding: 0 !important;
+        margin: 0 !important;
+      }
+
+      .memo-detail-page {
+        display: block;
+      }
+
+      .print-sheet {
+        width: auto;
+        min-height: auto;
+        margin: 0;
+        padding: 0;
+        border: 0;
+        border-radius: 0;
+        box-shadow: none;
+      }
+
+      .print-title {
+        font-size: 24pt;
+      }
+
+      .print-body {
+        font-size: 11.5pt;
+      }
+    }
+  </style>
+</head>
+<body class="alien-side-bg">
+  <div class="alien-page-frame">
+    <main class="container memo-detail-page">
+      <section class="memo-detail-actions" aria-label="메모 출력 조작">
+        <div class="memo-detail-actions-left">
+          <a class="btn ghost" href="/memo/">메모 목록</a>
+          <a class="btn ghost" id="btnEditMemo" href="/memo/">수정하러 가기</a>
+        </div>
+        <div class="memo-detail-actions-right">
+          <button class="btn ghost" id="btnCopyMemo" type="button">내용 복사</button>
+          <button class="btn primary" id="btnPrintMemo" type="button">A4 출력 / PDF 저장</button>
+        </div>
+      </section>
+
+      <article class="print-sheet" id="printSheet" aria-labelledby="printTitle">
+        <header class="print-head">
+          <p class="page-kicker" id="printCategory">MEMO</p>
+          <h1 class="print-title" id="printTitle">메모를 선택하세요</h1>
+          <div class="print-meta" id="printMeta"></div>
+        </header>
+        <div class="print-body" id="printBody">메모 목록에서 상세/출력 버튼을 눌러 들어오면 이곳에 내용이 표시됩니다.</div>
+        <footer class="print-foot" id="printFoot">고해영 일병 구하기 · savinghaey.co.kr</footer>
+      </article>
+    </main>
+  </div>
+</body>
+</html>

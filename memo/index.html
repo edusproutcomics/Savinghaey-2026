@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="color-scheme" content="light" />
+  <meta name="description" content="메모를 작성하고 상세페이지에서 A4 출력 또는 PDF 저장을 하는 savinghaey.co.kr 개인 메모 도구입니다." />
+  <meta name="x-brand-title" content="메모 작성/출력" />
+  <title>메모 작성/출력 | 고해영 일병 구하기</title>
+  <link rel="canonical" href="https://savinghaey.co.kr/memo/" />
+  <meta property="og:locale" content="ko_KR" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="고해영 일병 구하기" />
+  <meta property="og:title" content="메모 작성/출력" />
+  <meta property="og:description" content="메모를 작성하고 A4 출력 또는 PDF 저장합니다." />
+  <meta property="og:url" content="https://savinghaey.co.kr/memo/" />
+  <meta property="og:image" content="https://savinghaey.co.kr/static/alien.jpg" />
+  <link rel="icon" href="/static/favicon.ico" />
+  <link rel="stylesheet" href="/static/style.css?v=20260519-1" />
+  <script src="/static/footer.js"></script>
+  <script src="/static/global-loader.js?v=20260519-1"></script>
+  <script defer src="./memo.js?v=20260519-1"></script>
+  <style>
+    .memo-page {
+      display: grid;
+      gap: var(--space-6);
+    }
+
+    .memo-hero {
+      display: grid;
+      gap: var(--space-3);
+      padding: var(--space-7) 0 var(--space-3);
+    }
+
+    .memo-actions,
+    .memo-toolbar,
+    .memo-card-actions,
+    .memo-backup-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-2);
+      align-items: center;
+    }
+
+    .memo-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(320px, .95fr);
+      gap: var(--space-4);
+      align-items: start;
+    }
+
+    .memo-form-grid {
+      display: grid;
+      gap: var(--space-4);
+    }
+
+    .memo-content-input {
+      min-height: 360px;
+      line-height: 1.7;
+    }
+
+    .memo-list {
+      display: grid;
+      gap: var(--space-3);
+    }
+
+    .memo-card {
+      display: grid;
+      gap: var(--space-2);
+      background: var(--surface);
+    }
+
+    .memo-card h3 {
+      margin: 0;
+      font-size: var(--fs-md);
+      line-height: 1.4;
+    }
+
+    .memo-card p {
+      margin: 0;
+      color: var(--text-secondary);
+      font-size: var(--fs-sm);
+    }
+
+    .memo-preview {
+      min-height: 240px;
+      white-space: pre-wrap;
+      color: var(--text-secondary);
+    }
+
+    .memo-empty {
+      text-align: center;
+      padding: var(--space-6);
+    }
+
+    @media (max-width: 960px) {
+      .memo-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body class="alien-side-bg">
+  <div class="alien-page-frame">
+    <main class="container wide memo-page">
+      <section class="memo-hero" aria-labelledby="memoTitle">
+        <p class="page-kicker">MEMO</p>
+        <h1 id="memoTitle">메모 작성/출력</h1>
+        <p class="page-lead">
+          메모를 작성하고 상세페이지에서 바로 A4 출력 또는 PDF 저장을 합니다. 저장된 메모는 현재 브라우저 localStorage에 보관됩니다.
+        </p>
+        <div class="memo-actions">
+          <a class="btn ghost" href="/work-scheduler/">업무 스케쥴러</a>
+          <a class="btn ghost" href="/links/">업무 사이트 허브</a>
+          <a class="btn ghost" href="/memo/detail.html">출력 페이지 열기</a>
+        </div>
+      </section>
+
+      <section class="memo-layout" aria-label="메모 작성 및 목록">
+        <article class="section card-style" aria-labelledby="memoFormTitle">
+          <p class="page-kicker">WRITE</p>
+          <h2 id="memoFormTitle">메모 작성</h2>
+          <form id="memoForm" class="memo-form-grid">
+            <input type="hidden" id="memoId" />
+            <div class="field">
+              <label for="memoTitleInput">제목</label>
+              <input id="memoTitleInput" type="text" required placeholder="예) 오늘 처리할 업무" />
+            </div>
+            <div class="field">
+              <label for="memoCategoryInput">분류</label>
+              <input id="memoCategoryInput" type="text" placeholder="예) 업무메모 / 회의 / 전화" />
+            </div>
+            <div class="field">
+              <label for="memoContentInput">내용</label>
+              <textarea id="memoContentInput" class="memo-content-input" required placeholder="출력할 메모 내용을 입력하세요."></textarea>
+            </div>
+            <div class="memo-actions">
+              <button class="btn primary" type="submit">저장</button>
+              <button class="btn ghost" id="btnNewMemo" type="button">새 메모</button>
+              <button class="btn ghost" id="btnOpenDetail" type="button">상세/출력 열기</button>
+            </div>
+          </form>
+        </article>
+
+        <aside class="section card-style" aria-labelledby="memoListTitle">
+          <p class="page-kicker">LIST</p>
+          <h2 id="memoListTitle">저장된 메모</h2>
+          <div class="field">
+            <label for="memoSearch">메모 검색</label>
+            <input id="memoSearch" type="search" autocomplete="off" placeholder="제목, 분류, 내용 검색" />
+          </div>
+          <p class="muted" id="memoStatus" aria-live="polite"></p>
+          <div class="memo-list" id="memoList"></div>
+          <div class="card memo-empty" id="memoEmpty" hidden>
+            <p>저장된 메모가 없습니다.</p>
+          </div>
+        </aside>
+      </section>
+
+      <section class="section card-style" aria-labelledby="memoPreviewTitle">
+        <p class="page-kicker">PREVIEW</p>
+        <h2 id="memoPreviewTitle">작성 중인 메모 미리보기</h2>
+        <div class="memo-preview" id="memoPreview">메모 내용을 입력하면 이곳에 미리보기가 표시됩니다.</div>
+      </section>
+
+      <section class="section card-style" aria-labelledby="memoBackupTitle">
+        <p class="page-kicker">BACKUP</p>
+        <h2 id="memoBackupTitle">메모 백업·복원</h2>
+        <p class="muted">브라우저 저장소를 초기화하거나 PC를 바꾸기 전에는 JSON 백업을 받아두세요.</p>
+        <div class="memo-backup-actions">
+          <button class="btn ghost" id="btnExportMemos" type="button">메모 JSON 내보내기</button>
+          <button class="btn ghost" id="btnImportMemos" type="button">메모 JSON 가져오기</button>
+          <input id="memoImportFile" type="file" accept="application/json,.json" hidden />
+        </div>
+      </section>
+    </main>
+  </div>
+</body>
+</html>

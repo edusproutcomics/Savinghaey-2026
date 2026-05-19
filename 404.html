@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="refresh" content="3; url=/" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex,nofollow" />
+  <title>페이지를 찾을 수 없습니다 — 고해영 일병 구하기</title>
+  <link rel="icon" href="/static/favicon.ico" />
+  <link rel="stylesheet" href="/static/style.css?v=20260519" />
+  <script src="/static/brand-config.js?v=20260519"></script>
+  <script src="/static/footer.js?v=20260519"></script>
+  <script src="/static/global-loader.js?v=20260519"></script>
+  <style>
+    .error-page { padding-top: 10vh; }
+    .error-page .card { margin: 0; }
+  </style>
+  <script>
+    setTimeout(function () {
+      if (location.pathname !== "/") location.href = "/";
+    }, 3000);
+  </script>
+</head>
+<body class="alien-side-bg">
+  <div class="alien-page-frame">
+    <main class="page-main page-main--compact error-page">
+      <section class="card">
+        <h1>페이지를 찾을 수 없습니다</h1>
+        <p>요청하신 주소가 변경되었거나 존재하지 않습니다. 3초 뒤 메인으로 이동합니다.</p>
+        <p><a class="btn primary" href="/">메인으로 이동하기</a></p>
+      </section>
+    </main>
+  </div>
+</body>
+</html>

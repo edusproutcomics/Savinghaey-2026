@@ -1,0 +1,997 @@
+{
+  "fiscalYear": {
+    "label": "2026회계",
+    "start": "2026-03-01",
+    "end": "2027-02-28",
+    "domain": "savinghaey.co.kr"
+  },
+  "storageKey": "savinghaey.work-scheduler.2026fy.v1",
+  "categories": [
+    {
+      "value": "budget",
+      "label": "예산·회계",
+      "shortLabel": "예산"
+    },
+    {
+      "value": "income",
+      "label": "세입·세외",
+      "shortLabel": "세입"
+    },
+    {
+      "value": "payroll",
+      "label": "인건비·복무",
+      "shortLabel": "인건비"
+    },
+    {
+      "value": "insurance",
+      "label": "사회보험",
+      "shortLabel": "보험"
+    },
+    {
+      "value": "document",
+      "label": "공문·보고",
+      "shortLabel": "공문"
+    },
+    {
+      "value": "deadline",
+      "label": "마감·기한",
+      "shortLabel": "마감"
+    },
+    {
+      "value": "personal",
+      "label": "개인메모",
+      "shortLabel": "개인"
+    },
+    {
+      "value": "system",
+      "label": "시스템",
+      "shortLabel": "설정"
+    }
+  ],
+  "statuses": [
+    {
+      "value": "todo",
+      "label": "대기"
+    },
+    {
+      "value": "doing",
+      "label": "진행"
+    },
+    {
+      "value": "done",
+      "label": "완료"
+    },
+    {
+      "value": "hold",
+      "label": "보류"
+    }
+  ],
+  "priorities": [
+    {
+      "value": "low",
+      "label": "낮음"
+    },
+    {
+      "value": "normal",
+      "label": "보통"
+    },
+    {
+      "value": "high",
+      "label": "중요"
+    },
+    {
+      "value": "urgent",
+      "label": "긴급"
+    }
+  ],
+  "tasks": [
+    {
+      "id": "fy2026-start-setup",
+      "date": "2026-03-02",
+      "time": "",
+      "title": "2026회계 업무 일정판 기준일 점검",
+      "type": "system",
+      "scope": "연도초",
+      "priority": "high",
+      "status": "todo",
+      "memo": "기본 일정은 초안입니다. 학교별 실제 마감일·공문 기준으로 수정하세요.",
+      "link": "",
+      "tags": [
+        "2026회계",
+        "시작"
+      ]
+    },
+    {
+      "id": "fy2026-budget-start",
+      "date": "2026-03-10",
+      "time": "",
+      "title": "본예산 집행 초기 점검",
+      "type": "budget",
+      "scope": "연도초",
+      "priority": "normal",
+      "status": "todo",
+      "memo": "사업별 집행계획, 원인행위 흐름, 증빙 보관 위치를 확인합니다.",
+      "link": "",
+      "tags": [
+        "예산",
+        "집행"
+      ]
+    },
+    {
+      "id": "fy2026-leave-apr",
+      "date": "2026-04-01",
+      "time": "",
+      "title": "복무·연차 기초자료 점검",
+      "type": "payroll",
+      "scope": "연도초",
+      "priority": "normal",
+      "status": "todo",
+      "memo": "연차 부여, 복무 원자료, 직종별 근무시간 기준을 한 번에 점검합니다.",
+      "link": "",
+      "tags": [
+        "연차",
+        "복무"
+      ]
+    },
+    {
+      "id": "fy2026-h1-review",
+      "date": "2026-07-01",
+      "time": "",
+      "title": "상반기 업무자료 중간 정리",
+      "type": "document",
+      "scope": "중간점검",
+      "priority": "normal",
+      "status": "todo",
+      "memo": "증빙, 엑셀 원본, 공문 링크를 한 폴더 구조로 정리합니다.",
+      "link": "",
+      "tags": [
+        "상반기",
+        "자료정리"
+      ]
+    },
+    {
+      "id": "fy2026-second-semester",
+      "date": "2026-09-01",
+      "time": "",
+      "title": "2학기 시작 업무 루틴 재정비",
+      "type": "system",
+      "scope": "2학기",
+      "priority": "normal",
+      "status": "todo",
+      "memo": "월마감·수익자부담·사회보험·인건비 루틴을 다시 점검합니다.",
+      "link": "",
+      "tags": [
+        "2학기"
+      ]
+    },
+    {
+      "id": "fy2026-yearend-start",
+      "date": "2026-12-01",
+      "time": "",
+      "title": "연말 자료 정리 시작",
+      "type": "deadline",
+      "scope": "연말",
+      "priority": "high",
+      "status": "todo",
+      "memo": "연말정산, 계약, 예산 집행률, 미수납, 증빙 누락 여부를 미리 확인합니다.",
+      "link": "",
+      "tags": [
+        "연말",
+        "마감"
+      ]
+    },
+    {
+      "id": "fy2026-close-prep",
+      "date": "2027-01-05",
+      "time": "",
+      "title": "2026회계 마감 준비 착수",
+      "type": "budget",
+      "scope": "회계마감",
+      "priority": "high",
+      "status": "todo",
+      "memo": "불용 예상, 이월 가능성, 미집행 사업, 반납 가능성 등을 정리합니다.",
+      "link": "",
+      "tags": [
+        "회계마감"
+      ]
+    },
+    {
+      "id": "fy2026-close-check",
+      "date": "2027-02-10",
+      "time": "",
+      "title": "회계연도 마감 전 최종 점검",
+      "type": "deadline",
+      "scope": "회계마감",
+      "priority": "urgent",
+      "status": "todo",
+      "memo": "2월 말 전 처리해야 할 지출·수납·증빙·보고 업무를 최종 확인합니다.",
+      "link": "",
+      "tags": [
+        "최종점검"
+      ]
+    },
+    {
+      "id": "fy2026-end",
+      "date": "2027-02-28",
+      "time": "",
+      "title": "2026회계 종료 체크",
+      "type": "deadline",
+      "scope": "회계마감",
+      "priority": "urgent",
+      "status": "todo",
+      "memo": "마감 기준 최종 상태를 기록하고 2027회계로 넘길 업무를 분리합니다.",
+      "link": "",
+      "tags": [
+        "종료"
+      ]
+    },
+    {
+      "id": "202603-income-check",
+      "date": "2026-03-05",
+      "time": "",
+      "title": "2026.3 세입·세외 통장 대조",
+      "type": "income",
+      "scope": "월초",
+      "priority": "normal",
+      "status": "todo",
+      "memo": "전월 말 기준 수입·지출일계, 세외 수납 누락, 미수납 흐름을 확인합니다.",
+      "link": "",
+      "tags": [
+        "월초",
+        "세입"
+      ]
+    },
+    {
+      "id": "202603-insurance-check",
+      "date": "2026-03-10",
+      "time": "",
+      "title": "2026.3 사회보험 고지내역 확인",
+      "type": "insurance",
+      "scope": "월마감",
+      "priority": "normal",
+      "status": "todo",
+      "memo": "보험별 고지내역 엑셀을 확인하고 근로자별 집계 필요 여부를 표시합니다.",
+      "link": "",
+      "tags": [
+        "사회보험",
+        "월마감"
+      ]
+    },
+    {
+      "id": "202603-payroll-ready",
+      "date": "2026-03-20",
+      "time": "",
+      "title": "2026.3 인건비·수당 자료 취합",
+      "type": "payroll",
+      "scope": "월마감",
+      "priority": "normal",
+      "status": "todo",
+      "memo": "초과근무, 복무, 강사료, 수당 변동자료를 마감 전 취합합니다.",
+      "link": "",
+      "tags": [
+        "인건비",
+        "수당"
+      ]
+    },
+    {
+      "id": "202603-monthly-close",
+      "date": "2026-03-25",
+      "time": "",
+      "title": "2026.3 월마감 증빙 정리",
+      "type": "deadline",
+      "scope": "월마감",
+      "priority": "high",
+      "status": "todo",
+      "memo": "지출 첨부자료, 보고자료, 저장 폴더, 처리 누락 건을 점검합니다.",
+      "link": "",
+      "tags": [
+        "마감",
+        "증빙"
+      ]
+    },
+    {
+      "id": "202604-income-check",
+      "date": "2026-04-05",
+      "time": "",
+      "title": "2026.4 세입·세외 통장 대조",
+      "type": "income",
+      "scope": "월초",
+      "priority": "normal",
+      "status": "todo",
+      "memo": "전월 말 기준 수입·지출일계, 세외 수납 누락, 미수납 흐름을 확인합니다.",
+      "link": "",
+      "tags": [
+        "월초",
+        "세입"
+      ]
+    },
+    {
+      "id": "202604-insurance-check",
+      "date": "2026-04-10",
+      "time": "",
+      "title": "2026.4 사회보험 고지내역 확인",
+      "type": "insurance",
+      "scope": "월마감",
+      "priority": "normal",
+      "status": "todo",
+      "memo": "보험별 고지내역 엑셀을 확인하고 근로자별 집계 필요 여부를 표시합니다.",
+      "link": "",
+      "tags": [
+        "사회보험",
+        "월마감"
+      ]
+    },
+    {
+      "id": "202604-payroll-ready",
+      "date": "2026-04-20",
+      "time": "",
+      "title": "2026.4 인건비·수당 자료 취합",
+      "type": "payroll",
+      "scope": "월마감",
+      "priority": "normal",
+      "status": "todo",
+      "memo": "초과근무, 복무, 강사료, 수당 변동자료를 마감 전 취합합니다.",
+      "link": "",
+      "tags": [
+        "인건비",
+        "수당"
+      ]
+    },
+    {
+      "id": "202604-monthly-close",
+      "date": "2026-04-25",
+      "time": "",
+      "title": "2026.4 월마감 증빙 정리",
+      "type": "deadline",
+      "scope": "월마감",
+      "priority": "high",
+      "status": "todo",
+      "memo": "지출 첨부자료, 보고자료, 저장 폴더, 처리 누락 건을 점검합니다.",
+      "link": "",
+      "tags": [
+        "마감",
+        "증빙"
+      ]
+    },
+    {
+      "id": "202605-income-check",
+      "date": "2026-05-05",
+      "time": "",
+      "title": "2026.5 세입·세외 통장 대조",
+      "type": "income",
+      "scope": "월초",
+      "priority": "normal",
+      "status": "todo",
+      "memo": "전월 말 기준 수입·지출일계, 세외 수납 누락, 미수납 흐름을 확인합니다.",
+      "link": "",
+      "tags": [
+        "월초",
+        "세입"
+      ]
+    },
+    {
+      "id": "202605-insurance-check",
+      "date": "2026-05-10",
+      "time": "",
+      "title": "2026.5 사회보험 고지내역 확인",
+      "type": "insurance",
+      "scope": "월마감",
+      "priority": "normal",
+      "status": "todo",
+      "memo": "보험별 고지내역 엑셀을 확인하고 근로자별 집계 필요 여부를 표시합니다.",
+      "link": "",
+      "tags": [
+        "사회보험",
+        "월마감"
+      ]
+    },
+    {
+      "id": "202605-payroll-ready",
+      "date": "2026-05-20",
+      "time": "",
+      "title": "2026.5 인건비·수당 자료 취합",
+      "type": "payroll",
+      "scope": "월마감",
+      "priority": "normal",
+      "status": "todo",
+      "memo": "초과근무, 복무, 강사료, 수당 변동자료를 마감 전 취합합니다.",
+      "link": "",
+      "tags": [
+        "인건비",
+        "수당"
+      ]
+    },
+    {
+      "id": "202605-monthly-close",
+      "date": "2026-05-25",
+      "time": "",
+      "title": "2026.5 월마감 증빙 정리",
+      "type": "deadline",
+      "scope": "월마감",
+      "priority": "high",
+      "status": "todo",
+      "memo": "지출 첨부자료, 보고자료, 저장 폴더, 처리 누락 건을 점검합니다.",
+      "link": "",
+      "tags": [
+        "마감",
+        "증빙"
+      ]
+    },
+    {
+      "id": "202606-income-check",
+      "date": "2026-06-05",
+      "time": "",
+      "title": "2026.6 세입·세외 통장 대조",
+      "type": "income",
+      "scope": "월초",
+      "priority": "normal",
+      "status": "todo",
+      "memo": "전월 말 기준 수입·지출일계, 세외 수납 누락, 미수납 흐름을 확인합니다.",
+      "link": "",
+      "tags": [
+        "월초",
+        "세입"
+      ]
+    },
+    {
+      "id": "202606-insurance-check",
+      "date": "2026-06-10",
+      "time": "",
+      "title": "2026.6 사회보험 고지내역 확인",
+      "type": "insurance",
+      "scope": "월마감",
+      "priority": "normal",
+      "status": "todo",
+      "memo": "보험별 고지내역 엑셀을 확인하고 근로자별 집계 필요 여부를 표시합니다.",
+      "link": "",
+      "tags": [
+        "사회보험",
+        "월마감"
+      ]
+    },
+    {
+      "id": "202606-payroll-ready",
+      "date": "2026-06-20",
+      "time": "",
+      "title": "2026.6 인건비·수당 자료 취합",
+      "type": "payroll",
+      "scope": "월마감",
+      "priority": "normal",
+      "status": "todo",
+      "memo": "초과근무, 복무, 강사료, 수당 변동자료를 마감 전 취합합니다.",
+      "link": "",
+      "tags": [
+        "인건비",
+        "수당"
+      ]
+    },
+    {
+      "id": "202606-monthly-close",
+      "date": "2026-06-25",
+      "time": "",
+      "title": "2026.6 월마감 증빙 정리",
+      "type": "deadline",
+      "scope": "월마감",
+      "priority": "high",
+      "status": "todo",
+      "memo": "지출 첨부자료, 보고자료, 저장 폴더, 처리 누락 건을 점검합니다.",
+      "link": "",
+      "tags": [
+        "마감",
+        "증빙"
+      ]
+    },
+    {
+      "id": "202607-income-check",
+      "date": "2026-07-05",
+      "time": "",
+      "title": "2026.7 세입·세외 통장 대조",
+      "type": "income",
+      "scope": "월초",
+      "priority": "normal",
+      "status": "todo",
+      "memo": "전월 말 기준 수입·지출일계, 세외 수납 누락, 미수납 흐름을 확인합니다.",
+      "link": "",
+      "tags": [
+        "월초",
+        "세입"
+      ]
+    },
+    {
+      "id": "202607-insurance-check",
+      "date": "2026-07-10",
+      "time": "",
+      "title": "2026.7 사회보험 고지내역 확인",
+      "type": "insurance",
+      "scope": "월마감",
+      "priority": "normal",
+      "status": "todo",
+      "memo": "보험별 고지내역 엑셀을 확인하고 근로자별 집계 필요 여부를 표시합니다.",
+      "link": "",
+      "tags": [
+        "사회보험",
+        "월마감"
+      ]
+    },
+    {
+      "id": "202607-payroll-ready",
+      "date": "2026-07-20",
+      "time": "",
+      "title": "2026.7 인건비·수당 자료 취합",
+      "type": "payroll",
+      "scope": "월마감",
+      "priority": "normal",
+      "status": "todo",
+      "memo": "초과근무, 복무, 강사료, 수당 변동자료를 마감 전 취합합니다.",
+      "link": "",
+      "tags": [
+        "인건비",
+        "수당"
+      ]
+    },
+    {
+      "id": "202607-monthly-close",
+      "date": "2026-07-25",
+      "time": "",
+      "title": "2026.7 월마감 증빙 정리",
+      "type": "deadline",
+      "scope": "월마감",
+      "priority": "high",
+      "status": "todo",
+      "memo": "지출 첨부자료, 보고자료, 저장 폴더, 처리 누락 건을 점검합니다.",
+      "link": "",
+      "tags": [
+        "마감",
+        "증빙"
+      ]
+    },
+    {
+      "id": "202608-income-check",
+      "date": "2026-08-05",
+      "time": "",
+      "title": "2026.8 세입·세외 통장 대조",
+      "type": "income",
+      "scope": "월초",
+      "priority": "normal",
+      "status": "todo",
+      "memo": "전월 말 기준 수입·지출일계, 세외 수납 누락, 미수납 흐름을 확인합니다.",
+      "link": "",
+      "tags": [
+        "월초",
+        "세입"
+      ]
+    },
+    {
+      "id": "202608-insurance-check",
+      "date": "2026-08-10",
+      "time": "",
+      "title": "2026.8 사회보험 고지내역 확인",
+      "type": "insurance",
+      "scope": "월마감",
+      "priority": "normal",
+      "status": "todo",
+      "memo": "보험별 고지내역 엑셀을 확인하고 근로자별 집계 필요 여부를 표시합니다.",
+      "link": "",
+      "tags": [
+        "사회보험",
+        "월마감"
+      ]
+    },
+    {
+      "id": "202608-payroll-ready",
+      "date": "2026-08-20",
+      "time": "",
+      "title": "2026.8 인건비·수당 자료 취합",
+      "type": "payroll",
+      "scope": "월마감",
+      "priority": "normal",
+      "status": "todo",
+      "memo": "초과근무, 복무, 강사료, 수당 변동자료를 마감 전 취합합니다.",
+      "link": "",
+      "tags": [
+        "인건비",
+        "수당"
+      ]
+    },
+    {
+      "id": "202608-monthly-close",
+      "date": "2026-08-25",
+      "time": "",
+      "title": "2026.8 월마감 증빙 정리",
+      "type": "deadline",
+      "scope": "월마감",
+      "priority": "high",
+      "status": "todo",
+      "memo": "지출 첨부자료, 보고자료, 저장 폴더, 처리 누락 건을 점검합니다.",
+      "link": "",
+      "tags": [
+        "마감",
+        "증빙"
+      ]
+    },
+    {
+      "id": "202609-income-check",
+      "date": "2026-09-05",
+      "time": "",
+      "title": "2026.9 세입·세외 통장 대조",
+      "type": "income",
+      "scope": "월초",
+      "priority": "normal",
+      "status": "todo",
+      "memo": "전월 말 기준 수입·지출일계, 세외 수납 누락, 미수납 흐름을 확인합니다.",
+      "link": "",
+      "tags": [
+        "월초",
+        "세입"
+      ]
+    },
+    {
+      "id": "202609-insurance-check",
+      "date": "2026-09-10",
+      "time": "",
+      "title": "2026.9 사회보험 고지내역 확인",
+      "type": "insurance",
+      "scope": "월마감",
+      "priority": "normal",
+      "status": "todo",
+      "memo": "보험별 고지내역 엑셀을 확인하고 근로자별 집계 필요 여부를 표시합니다.",
+      "link": "",
+      "tags": [
+        "사회보험",
+        "월마감"
+      ]
+    },
+    {
+      "id": "202609-payroll-ready",
+      "date": "2026-09-20",
+      "time": "",
+      "title": "2026.9 인건비·수당 자료 취합",
+      "type": "payroll",
+      "scope": "월마감",
+      "priority": "normal",
+      "status": "todo",
+      "memo": "초과근무, 복무, 강사료, 수당 변동자료를 마감 전 취합합니다.",
+      "link": "",
+      "tags": [
+        "인건비",
+        "수당"
+      ]
+    },
+    {
+      "id": "202609-monthly-close",
+      "date": "2026-09-25",
+      "time": "",
+      "title": "2026.9 월마감 증빙 정리",
+      "type": "deadline",
+      "scope": "월마감",
+      "priority": "high",
+      "status": "todo",
+      "memo": "지출 첨부자료, 보고자료, 저장 폴더, 처리 누락 건을 점검합니다.",
+      "link": "",
+      "tags": [
+        "마감",
+        "증빙"
+      ]
+    },
+    {
+      "id": "202610-income-check",
+      "date": "2026-10-05",
+      "time": "",
+      "title": "2026.10 세입·세외 통장 대조",
+      "type": "income",
+      "scope": "월초",
+      "priority": "normal",
+      "status": "todo",
+      "memo": "전월 말 기준 수입·지출일계, 세외 수납 누락, 미수납 흐름을 확인합니다.",
+      "link": "",
+      "tags": [
+        "월초",
+        "세입"
+      ]
+    },
+    {
+      "id": "202610-insurance-check",
+      "date": "2026-10-10",
+      "time": "",
+      "title": "2026.10 사회보험 고지내역 확인",
+      "type": "insurance",
+      "scope": "월마감",
+      "priority": "normal",
+      "status": "todo",
+      "memo": "보험별 고지내역 엑셀을 확인하고 근로자별 집계 필요 여부를 표시합니다.",
+      "link": "",
+      "tags": [
+        "사회보험",
+        "월마감"
+      ]
+    },
+    {
+      "id": "202610-payroll-ready",
+      "date": "2026-10-20",
+      "time": "",
+      "title": "2026.10 인건비·수당 자료 취합",
+      "type": "payroll",
+      "scope": "월마감",
+      "priority": "normal",
+      "status": "todo",
+      "memo": "초과근무, 복무, 강사료, 수당 변동자료를 마감 전 취합합니다.",
+      "link": "",
+      "tags": [
+        "인건비",
+        "수당"
+      ]
+    },
+    {
+      "id": "202610-monthly-close",
+      "date": "2026-10-25",
+      "time": "",
+      "title": "2026.10 월마감 증빙 정리",
+      "type": "deadline",
+      "scope": "월마감",
+      "priority": "high",
+      "status": "todo",
+      "memo": "지출 첨부자료, 보고자료, 저장 폴더, 처리 누락 건을 점검합니다.",
+      "link": "",
+      "tags": [
+        "마감",
+        "증빙"
+      ]
+    },
+    {
+      "id": "202611-income-check",
+      "date": "2026-11-05",
+      "time": "",
+      "title": "2026.11 세입·세외 통장 대조",
+      "type": "income",
+      "scope": "월초",
+      "priority": "normal",
+      "status": "todo",
+      "memo": "전월 말 기준 수입·지출일계, 세외 수납 누락, 미수납 흐름을 확인합니다.",
+      "link": "",
+      "tags": [
+        "월초",
+        "세입"
+      ]
+    },
+    {
+      "id": "202611-insurance-check",
+      "date": "2026-11-10",
+      "time": "",
+      "title": "2026.11 사회보험 고지내역 확인",
+      "type": "insurance",
+      "scope": "월마감",
+      "priority": "normal",
+      "status": "todo",
+      "memo": "보험별 고지내역 엑셀을 확인하고 근로자별 집계 필요 여부를 표시합니다.",
+      "link": "",
+      "tags": [
+        "사회보험",
+        "월마감"
+      ]
+    },
+    {
+      "id": "202611-payroll-ready",
+      "date": "2026-11-20",
+      "time": "",
+      "title": "2026.11 인건비·수당 자료 취합",
+      "type": "payroll",
+      "scope": "월마감",
+      "priority": "normal",
+      "status": "todo",
+      "memo": "초과근무, 복무, 강사료, 수당 변동자료를 마감 전 취합합니다.",
+      "link": "",
+      "tags": [
+        "인건비",
+        "수당"
+      ]
+    },
+    {
+      "id": "202611-monthly-close",
+      "date": "2026-11-25",
+      "time": "",
+      "title": "2026.11 월마감 증빙 정리",
+      "type": "deadline",
+      "scope": "월마감",
+      "priority": "high",
+      "status": "todo",
+      "memo": "지출 첨부자료, 보고자료, 저장 폴더, 처리 누락 건을 점검합니다.",
+      "link": "",
+      "tags": [
+        "마감",
+        "증빙"
+      ]
+    },
+    {
+      "id": "202612-income-check",
+      "date": "2026-12-05",
+      "time": "",
+      "title": "2026.12 세입·세외 통장 대조",
+      "type": "income",
+      "scope": "월초",
+      "priority": "normal",
+      "status": "todo",
+      "memo": "전월 말 기준 수입·지출일계, 세외 수납 누락, 미수납 흐름을 확인합니다.",
+      "link": "",
+      "tags": [
+        "월초",
+        "세입"
+      ]
+    },
+    {
+      "id": "202612-insurance-check",
+      "date": "2026-12-10",
+      "time": "",
+      "title": "2026.12 사회보험 고지내역 확인",
+      "type": "insurance",
+      "scope": "월마감",
+      "priority": "normal",
+      "status": "todo",
+      "memo": "보험별 고지내역 엑셀을 확인하고 근로자별 집계 필요 여부를 표시합니다.",
+      "link": "",
+      "tags": [
+        "사회보험",
+        "월마감"
+      ]
+    },
+    {
+      "id": "202612-payroll-ready",
+      "date": "2026-12-20",
+      "time": "",
+      "title": "2026.12 인건비·수당 자료 취합",
+      "type": "payroll",
+      "scope": "월마감",
+      "priority": "normal",
+      "status": "todo",
+      "memo": "초과근무, 복무, 강사료, 수당 변동자료를 마감 전 취합합니다.",
+      "link": "",
+      "tags": [
+        "인건비",
+        "수당"
+      ]
+    },
+    {
+      "id": "202612-monthly-close",
+      "date": "2026-12-25",
+      "time": "",
+      "title": "2026.12 월마감 증빙 정리",
+      "type": "deadline",
+      "scope": "월마감",
+      "priority": "high",
+      "status": "todo",
+      "memo": "지출 첨부자료, 보고자료, 저장 폴더, 처리 누락 건을 점검합니다.",
+      "link": "",
+      "tags": [
+        "마감",
+        "증빙"
+      ]
+    },
+    {
+      "id": "202701-income-check",
+      "date": "2027-01-05",
+      "time": "",
+      "title": "2027.1 세입·세외 통장 대조",
+      "type": "income",
+      "scope": "월초",
+      "priority": "normal",
+      "status": "todo",
+      "memo": "전월 말 기준 수입·지출일계, 세외 수납 누락, 미수납 흐름을 확인합니다.",
+      "link": "",
+      "tags": [
+        "월초",
+        "세입"
+      ]
+    },
+    {
+      "id": "202701-insurance-check",
+      "date": "2027-01-10",
+      "time": "",
+      "title": "2027.1 사회보험 고지내역 확인",
+      "type": "insurance",
+      "scope": "월마감",
+      "priority": "normal",
+      "status": "todo",
+      "memo": "보험별 고지내역 엑셀을 확인하고 근로자별 집계 필요 여부를 표시합니다.",
+      "link": "",
+      "tags": [
+        "사회보험",
+        "월마감"
+      ]
+    },
+    {
+      "id": "202701-payroll-ready",
+      "date": "2027-01-20",
+      "time": "",
+      "title": "2027.1 인건비·수당 자료 취합",
+      "type": "payroll",
+      "scope": "월마감",
+      "priority": "normal",
+      "status": "todo",
+      "memo": "초과근무, 복무, 강사료, 수당 변동자료를 마감 전 취합합니다.",
+      "link": "",
+      "tags": [
+        "인건비",
+        "수당"
+      ]
+    },
+    {
+      "id": "202701-monthly-close",
+      "date": "2027-01-25",
+      "time": "",
+      "title": "2027.1 월마감 증빙 정리",
+      "type": "deadline",
+      "scope": "월마감",
+      "priority": "high",
+      "status": "todo",
+      "memo": "지출 첨부자료, 보고자료, 저장 폴더, 처리 누락 건을 점검합니다.",
+      "link": "",
+      "tags": [
+        "마감",
+        "증빙"
+      ]
+    },
+    {
+      "id": "202702-income-check",
+      "date": "2027-02-05",
+      "time": "",
+      "title": "2027.2 세입·세외 통장 대조",
+      "type": "income",
+      "scope": "월초",
+      "priority": "normal",
+      "status": "todo",
+      "memo": "전월 말 기준 수입·지출일계, 세외 수납 누락, 미수납 흐름을 확인합니다.",
+      "link": "",
+      "tags": [
+        "월초",
+        "세입"
+      ]
+    },
+    {
+      "id": "202702-insurance-check",
+      "date": "2027-02-10",
+      "time": "",
+      "title": "2027.2 사회보험 고지내역 확인",
+      "type": "insurance",
+      "scope": "월마감",
+      "priority": "normal",
+      "status": "todo",
+      "memo": "보험별 고지내역 엑셀을 확인하고 근로자별 집계 필요 여부를 표시합니다.",
+      "link": "",
+      "tags": [
+        "사회보험",
+        "월마감"
+      ]
+    },
+    {
+      "id": "202702-payroll-ready",
+      "date": "2027-02-20",
+      "time": "",
+      "title": "2027.2 인건비·수당 자료 취합",
+      "type": "payroll",
+      "scope": "월마감",
+      "priority": "normal",
+      "status": "todo",
+      "memo": "초과근무, 복무, 강사료, 수당 변동자료를 마감 전 취합합니다.",
+      "link": "",
+      "tags": [
+        "인건비",
+        "수당"
+      ]
+    },
+    {
+      "id": "202702-monthly-close",
+      "date": "2027-02-25",
+      "time": "",
+      "title": "2027.2 월마감 증빙 정리",
+      "type": "deadline",
+      "scope": "월마감",
+      "priority": "high",
+      "status": "todo",
+      "memo": "지출 첨부자료, 보고자료, 저장 폴더, 처리 누락 건을 점검합니다.",
+      "link": "",
+      "tags": [
+        "마감",
+        "증빙"
+      ]
+    }
+  ]
+}

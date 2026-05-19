@@ -1,0 +1,5 @@
+# savinghaey.co.kr robots.txt
+# 개인 업무 보조용 사이트라 검색엔진 색인을 요청하지 않습니다.
+
+User-agent: *
+Disallow: /

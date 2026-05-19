@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="color-scheme" content="light" />
+  <meta name="description" content="savinghaey.co.kr 개인 업무 보조 대시보드. 업무 스케쥴러, 업무 사이트 허브, A4 출력용 메모를 한 곳에서 관리합니다." />
+  <meta name="x-brand-title" content="고해영 일병 구하기" />
+  <title>고해영 일병 구하기</title>
+  <link rel="canonical" href="https://savinghaey.co.kr/" />
+
+  <meta property="og:locale" content="ko_KR" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="고해영 일병 구하기" />
+  <meta property="og:title" content="고해영 일병 구하기" />
+  <meta property="og:description" content="개인 업무 보조용 대시보드입니다." />
+  <meta property="og:url" content="https://savinghaey.co.kr/" />
+  <meta property="og:image" content="https://savinghaey.co.kr/static/alien.jpg" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="고해영 일병 구하기" />
+  <meta name="twitter:description" content="개인 업무 보조용 대시보드입니다." />
+
+  <link rel="icon" href="/static/favicon.ico" />
+  <link rel="stylesheet" href="/static/style.css?v=20260519-1" />
+  <script src="/static/footer.js"></script>
+  <script src="/static/global-loader.js?v=20260519-1"></script>
+  <style>
+    .dashboard-hero-actions,
+    .dashboard-card-actions,
+    .dashboard-mini-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-2);
+      align-items: center;
+    }
+
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: var(--space-4);
+      margin-top: var(--space-5);
+    }
+
+    .dashboard-card {
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      gap: var(--space-4);
+      min-height: 280px;
+      background: var(--surface);
+    }
+
+    .dashboard-card h2 {
+      margin: 0;
+      font-size: var(--fs-xl);
+    }
+
+    .dashboard-card p {
+      margin: 0;
+      color: var(--text-secondary);
+    }
+
+    .dashboard-card ol,
+    .dashboard-card ul {
+      margin: 0;
+      padding-left: 1.2em;
+      color: var(--text-secondary);
+      font-size: var(--fs-sm);
+    }
+
+    .dashboard-status-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: var(--space-3);
+    }
+
+    .dashboard-status {
+      display: grid;
+      gap: var(--space-1);
+      padding: var(--space-4);
+      border: 1px solid var(--border);
+      border-radius: var(--r-lg);
+      background: var(--surface-2);
+    }
+
+    .dashboard-status strong {
+      font-size: var(--fs-lg);
+    }
+
+    .dashboard-status span {
+      color: var(--text-muted);
+      font-size: var(--fs-sm);
+    }
+
+    .dashboard-note {
+      display: grid;
+      gap: var(--space-2);
+    }
+
+    @media (max-width: 960px) {
+      .dashboard-grid,
+      .dashboard-status-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .dashboard-card {
+        min-height: auto;
+      }
+    }
+  </style>
+</head>
+<body class="alien-side-bg page-index home-page">
+  <div class="alien-page-frame">
+    <main class="container wide home-main">
+      <section class="section home-hero hero hero-with-figure" aria-labelledby="homeHeroTitle">
+        <div class="home-hero-inner hero-text">
+          <p class="home-kicker page-kicker">savinghaey.co.kr</p>
+          <h1 id="homeHeroTitle">고해영 일병 구하기</h1>
+          <p class="subtitle hero-lead">
+            업무 스케쥴러, 자주 쓰는 사이트 바로가기, A4 출력용 메모를 한 곳에서 관리하는 개인 업무 보조 대시보드입니다.
+          </p>
+          <div class="dashboard-hero-actions" aria-label="주요 기능 바로가기">
+            <a class="btn primary" href="/work-scheduler/">업무 스케쥴러 열기</a>
+            <a class="btn ghost" href="/links/">업무 사이트 허브</a>
+            <a class="btn ghost" href="/memo/">메모 작성/출력</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="section card-style dashboard-note" aria-labelledby="noticeTitle">
+        <p class="page-kicker">NOTICE</p>
+        <h2 id="noticeTitle">개인용 정적 업무 보조 사이트</h2>
+        <p>
+          이 사이트는 전체 공유용 서비스가 아니라 개인 업무 보조용입니다. 메모, 즐겨찾기, 스케줄러에서 직접 추가한 데이터는 서버가 아니라 현재 브라우저의 localStorage에 저장됩니다.
+        </p>
+        <p class="muted">
+          PC를 바꾸거나 브라우저 저장소를 초기화하기 전에는 각 기능의 JSON 백업 기능을 사용하세요. 계정, 비밀번호, 인증키, 민감한 개인정보는 소스코드와 메모에 저장하지 않는 것을 권장합니다.
+        </p>
+      </section>
+
+      <section class="section" aria-labelledby="dashboardTitle">
+        <div class="home-section-head">
+          <div>
+            <p class="home-section-kicker">DASHBOARD</p>
+            <h2 id="dashboardTitle">오늘 쓸 기능</h2>
+          </div>
+        </div>
+
+        <div class="dashboard-grid">
+          <article class="card dashboard-card">
+            <div>
+              <p class="page-kicker">01 · SCHEDULE</p>
+              <h2>업무 스케쥴러</h2>
+            </div>
+            <div>
+              <p>2026회계 업무 일정을 일렬 날짜 목록과 월간 달력으로 관리합니다.</p>
+              <ul>
+                <li>기본 일정은 소스코드의 JSON 파일로 관리</li>
+                <li>개인 추가 일정은 브라우저에 저장</li>
+                <li>JSON 백업·복원 및 인쇄 지원</li>
+              </ul>
+            </div>
+            <div class="dashboard-card-actions">
+              <a class="btn primary" href="/work-scheduler/">열기</a>
+            </div>
+          </article>
+
+          <article class="card dashboard-card">
+            <div>
+              <p class="page-kicker">02 · LINKS</p>
+              <h2>업무 사이트 허브</h2>
+            </div>
+            <div>
+              <p>업무 중 자주 사용하는 사이트를 카테고리별로 모아두는 바로가기 페이지입니다.</p>
+              <ul>
+                <li>검색, 카테고리 필터, 즐겨찾기 지원</li>
+                <li>개인 링크 추가 및 삭제 가능</li>
+                <li>커스텀 링크 JSON 백업·복원 가능</li>
+              </ul>
+            </div>
+            <div class="dashboard-card-actions">
+              <a class="btn primary" href="/links/">열기</a>
+            </div>
+          </article>
+
+          <article class="card dashboard-card">
+            <div>
+              <p class="page-kicker">03 · MEMO</p>
+              <h2>메모 작성/출력</h2>
+            </div>
+            <div>
+              <p>메모를 작성한 뒤 상세페이지에서 바로 A4 출력하거나 PDF로 저장할 수 있습니다.</p>
+              <ul>
+                <li>메모 목록, 검색, 상세보기 지원</li>
+                <li>A4 인쇄 레이아웃 적용</li>
+                <li>브라우저 인쇄창에서 PDF 저장 가능</li>
+              </ul>
+            </div>
+            <div class="dashboard-card-actions">
+              <a class="btn primary" href="/memo/">열기</a>
+              <a class="btn ghost" href="/memo/detail.html">출력 페이지</a>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="section card-style" aria-labelledby="storageTitle">
+        <p class="page-kicker">LOCAL STORAGE</p>
+        <h2 id="storageTitle">저장 방식 요약</h2>
+        <div class="dashboard-status-grid">
+          <div class="dashboard-status">
+            <strong>스케쥴러</strong>
+            <span>기본 일정: JSON 파일 / 개인 수정: localStorage</span>
+          </div>
+          <div class="dashboard-status">
+            <strong>바로가기</strong>
+            <span>기본 링크: links-data.js / 개인 링크·즐겨찾기: localStorage</span>
+          </div>
+          <div class="dashboard-status">
+            <strong>메모</strong>
+            <span>작성한 메모 전체: localStorage / 출력: 브라우저 인쇄</span>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+</body>
+</html>

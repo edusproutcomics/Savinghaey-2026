@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="color-scheme" content="light" />
+  <meta name="description" content="업무 중 자주 사용하는 사이트를 모아두는 savinghaey.co.kr 개인 바로가기 허브입니다." />
+  <meta name="x-brand-title" content="업무 사이트 허브" />
+  <title>업무 사이트 허브 | 고해영 일병 구하기</title>
+  <link rel="canonical" href="https://savinghaey.co.kr/links/" />
+  <meta property="og:locale" content="ko_KR" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="고해영 일병 구하기" />
+  <meta property="og:title" content="업무 사이트 허브" />
+  <meta property="og:description" content="자주 사용하는 업무 사이트를 검색하고 즐겨찾기합니다." />
+  <meta property="og:url" content="https://savinghaey.co.kr/links/" />
+  <meta property="og:image" content="https://savinghaey.co.kr/static/alien.jpg" />
+  <link rel="icon" href="/static/favicon.ico" />
+  <link rel="stylesheet" href="/static/style.css?v=20260519-1" />
+  <script src="/static/footer.js"></script>
+  <script src="/static/global-loader.js?v=20260519-1"></script>
+  <script defer src="./links-data.js?v=20260519-1"></script>
+  <script defer src="./links.js?v=20260519-1"></script>
+  <style>
+    .links-page {
+      display: grid;
+      gap: var(--space-6);
+    }
+
+    .links-hero {
+      display: grid;
+      gap: var(--space-3);
+      padding: var(--space-7) 0 var(--space-3);
+    }
+
+    .links-actions,
+    .links-toolbar,
+    .links-card-actions,
+    .links-backup-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-2);
+      align-items: center;
+    }
+
+    .links-toolbar {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: end;
+    }
+
+    .links-search-row {
+      display: grid;
+      gap: var(--space-2);
+    }
+
+    .links-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: var(--space-4);
+    }
+
+    .links-card {
+      display: grid;
+      gap: var(--space-3);
+      background: var(--surface);
+      min-height: 220px;
+    }
+
+    .links-card-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: var(--space-3);
+    }
+
+    .links-card-title {
+      margin: 0;
+      font-size: var(--fs-lg);
+      line-height: 1.35;
+    }
+
+    .links-card-desc {
+      margin: 0;
+      color: var(--text-secondary);
+      font-size: var(--fs-sm);
+    }
+
+    .links-card-url {
+      color: var(--text-muted);
+      font-family: var(--font-mono);
+      font-size: var(--fs-xs);
+      word-break: break-all;
+    }
+
+    .links-star {
+      min-width: var(--h-control-sm);
+      height: var(--h-control-sm);
+      padding: 0 10px;
+      border-radius: var(--r-pill);
+    }
+
+    .links-star[aria-pressed="true"] {
+      background: var(--text);
+      border-color: var(--text);
+      color: var(--accent-fg);
+    }
+
+    .links-tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .links-empty {
+      padding: var(--space-6);
+      text-align: center;
+    }
+
+    .links-form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--space-4);
+    }
+
+    .links-form-grid .field-full {
+      grid-column: 1 / -1;
+    }
+
+    @media (max-width: 960px) {
+      .links-grid,
+      .links-toolbar,
+      .links-form-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body class="alien-side-bg">
+  <div class="alien-page-frame">
+    <main class="container wide links-page">
+      <section class="links-hero" aria-labelledby="linksTitle">
+        <p class="page-kicker">LINK HUB</p>
+        <h1 id="linksTitle">업무 사이트 허브</h1>
+        <p class="page-lead">
+          자주 사용하는 업무 사이트를 카테고리별로 모아두고, 검색·즐겨찾기로 바로 엽니다. 개인 추가 링크는 현재 브라우저에 저장됩니다.
+        </p>
+        <div class="links-actions">
+          <a class="btn ghost" href="/work-scheduler/">업무 스케쥴러</a>
+          <a class="btn ghost" href="/memo/">메모 작성/출력</a>
+          <a class="btn ghost" href="#linkFormSection">개인 링크 추가</a>
+        </div>
+      </section>
+
+      <section class="section card-style" aria-labelledby="linkSearchTitle">
+        <div class="links-toolbar">
+          <div class="links-search-row">
+            <p class="page-kicker">SEARCH</p>
+            <h2 id="linkSearchTitle">필요한 사이트 찾기</h2>
+            <label class="sr-only" for="linkSearch">사이트 검색</label>
+            <input id="linkSearch" type="search" autocomplete="off" placeholder="예) 나이스 / 홈택스 / 보험 / 내부 업무" />
+          </div>
+          <div class="links-actions">
+            <button class="btn ghost" id="btnShowFavorites" type="button" aria-pressed="false">즐겨찾기만 보기</button>
+            <button class="btn ghost" id="btnResetFilters" type="button">초기화</button>
+          </div>
+        </div>
+        <div class="chip-row" id="categoryChips" aria-label="카테고리 필터"></div>
+        <p class="muted" id="linkStatus" aria-live="polite"></p>
+      </section>
+
+      <section aria-labelledby="linkListTitle">
+        <div class="home-section-head">
+          <div>
+            <p class="home-section-kicker">SHORTCUTS</p>
+            <h2 id="linkListTitle">바로가기 목록</h2>
+          </div>
+        </div>
+        <div class="links-grid" id="linksGrid"></div>
+        <div class="card links-empty" id="linksEmpty" hidden>
+          <p>조건에 맞는 바로가기가 없습니다.</p>
+        </div>
+      </section>
+
+      <section class="section card-style" id="linkFormSection" aria-labelledby="linkFormTitle">
+        <p class="page-kicker">CUSTOM LINK</p>
+        <h2 id="linkFormTitle">개인 링크 추가</h2>
+        <p class="muted">추가한 링크는 서버가 아니라 현재 브라우저 localStorage에 저장됩니다. 계정, 비밀번호, 인증키는 저장하지 마세요.</p>
+        <form id="linkForm">
+          <input type="hidden" id="editingCustomId" />
+          <div class="links-form-grid">
+            <div class="field">
+              <label for="linkTitle">사이트 이름</label>
+              <input id="linkTitle" type="text" required placeholder="예) 내부 업무 시스템" />
+            </div>
+            <div class="field">
+              <label for="linkUrl">주소</label>
+              <input id="linkUrl" type="url" required placeholder="https://..." />
+            </div>
+            <div class="field">
+              <label for="linkCategory">카테고리</label>
+              <input id="linkCategory" type="text" placeholder="예) 내부 업무" />
+            </div>
+            <div class="field">
+              <label for="linkTags">태그</label>
+              <input id="linkTags" type="text" placeholder="쉼표로 구분: 공문, 회계, 자주씀" />
+            </div>
+            <div class="field field-full">
+              <label for="linkDescription">설명</label>
+              <textarea id="linkDescription" rows="3" placeholder="어떤 업무에 쓰는 사이트인지 짧게 적습니다."></textarea>
+            </div>
+          </div>
+          <div class="links-actions">
+            <button class="btn primary" type="submit">저장</button>
+            <button class="btn ghost" id="btnClearLinkForm" type="button">입력 초기화</button>
+          </div>
+        </form>
+      </section>
+
+      <section class="section card-style" aria-labelledby="linkBackupTitle">
+        <p class="page-kicker">BACKUP</p>
+        <h2 id="linkBackupTitle">개인 링크 백업·복원</h2>
+        <p class="muted">소스코드의 기본 링크는 links-data.js에서 수정하고, 화면에서 추가한 개인 링크는 아래 버튼으로 백업합니다.</p>
+        <div class="links-backup-actions">
+          <button class="btn ghost" id="btnExportLinks" type="button">개인 링크 JSON 내보내기</button>
+          <button class="btn ghost" id="btnImportLinks" type="button">개인 링크 JSON 가져오기</button>
+          <input id="linkImportFile" type="file" accept="application/json,.json" hidden />
+        </div>
+      </section>
+    </main>
+  </div>
+</body>
+</html>
