@@ -14,10 +14,8 @@
     homeHeadline: "고해영 일병 구하기",
     homeSubtitle: "기면병 및 탈력발작, ADHD, 양극성 양상의 기분정동장애",
     trustMessage: "어떤 제약은 창의성이 된다.",
-
-    affectionLine: "오늘 해야 할 일을 정리하고, 바로 찾고, 필요한 메모는 바로 출력합니다.",
-    playfulAlias: "개인 업무보조",
-
+    affectionLine: "시스템 설계자",
+    playfulAlias: "재밌는 거",
     brandAccentColor: "#000000",
     schoolAccentColor: "#000000",
 
