@@ -4,16 +4,17 @@
 
   const FALLBACK = {
     masterBrand: "고해영 일병 구하기",
-    editionTitle: "savinghaey 개인 업무보조",
-    siteTitle: "고해영 일병 구하기 | savinghaey.co.kr",
-    siteDescription: "개인 업무 스케줄러, 바로가기 허브, 출력용 메모를 한 곳에서 관리하는 정적 업무 보조 사이트입니다.",
+    editionTitle: "개인용 업무 보조 사이트",
+    siteTitle: "고해영 일병 구하기 (Saving Private Ko)",
+    siteDescription: "업무 일정 관리 위주",
     operatorName: "고해영",
-    contactEmail: "",
+    contactEmail: "edusproutcomics@naver.com",
     feedbackLabel: "",
-    slogan: "업무는 기록하고, 놓치는 일은 줄입니다.",
+    slogan: "고해영 천재",
     homeHeadline: "고해영 일병 구하기",
-    homeSubtitle: "업무 스케줄러, 바로가기 허브, A4 출력용 메모를 한 곳에서 관리하는 개인 대시보드입니다.",
-    trustMessage: "이 사이트는 개인 업무보조용 비공식 정적 사이트입니다. 최종 기준은 공문·지침·편람 등 공식 자료를 우선합니다.",
+    homeSubtitle: "기면병 및 탈력발작, ADHD, 양극성 양상의 기분정동장애",
+    trustMessage: "어떤 제약은 창의성이 된다.",
+
     affectionLine: "오늘 해야 할 일을 정리하고, 바로 찾고, 필요한 메모는 바로 출력합니다.",
     playfulAlias: "개인 업무보조",
 
