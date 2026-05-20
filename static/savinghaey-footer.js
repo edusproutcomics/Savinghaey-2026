@@ -4,12 +4,12 @@
 
   const FALLBACK = {
     masterBrand: "고해영 일병 구하기",
-    editionTitle: "savinghaey 개인 업무보조",
+    editionTitle: "개인용 업무 보조 사이트",
     operatorName: "고해영",
-    contactEmail: "",
-    trustMessage: "이 사이트는 개인 업무보조용 비공식 정적 사이트입니다. 최종 기준은 공문·지침·편람 등 공식 자료를 우선합니다.",
-    affectionLine: "오늘 해야 할 일을 정리하고, 바로 찾고, 필요한 메모는 바로 출력합니다.",
-    playfulAlias: "개인 업무보조",
+    contactEmail: "edusproutcomics@naver.com",
+    trustMessage: "어떤 제약은 창의성이 된다.",
+    affectionLine: "시스템 설계자",
+    playfulAlias: "재밌는 거",
     routes: { home: "/", scheduler: "/work-scheduler/", links: "/links/", memo: "/memo/" }
   };
 
