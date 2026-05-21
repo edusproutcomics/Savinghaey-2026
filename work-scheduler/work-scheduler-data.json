@@ -142,6 +142,21 @@
       ]
     },
     {
+      "id": "sch-20260521-01",
+      "date": "2026-05-21",
+      "time": "18:00",
+      "title": "저녁 식사",
+      "type": "personal",
+      "scope": "연도중",
+      "priority": "normal",
+      "status": "todo",
+      "memo": "직장 동료 저녁 약속, 웹사이트 시연",
+      "link": "",
+      "tags": [
+        "개인약속"
+      ]
+    },
+    {
       "id": "sch-20260522-01",
       "date": "2026-05-22",
       "time": "10:00",
@@ -165,26 +180,11 @@
       "scope": "연도중",
       "priority": "normal",
       "status": "todo",
-      "memo": "외부 카페에서 진행, 회의자료 당일 배부",
+      "memo": "외부 카페에서 진행, 회의자료 당일 배부. 안전복지과-7826(2026.5.20.)",
       "link": "",
       "tags": [
         "출장",
-        "협의회"
-      ]
-    },
-    {
-      "id": "sch-20260526-01",
-      "date": "2026-05-26",
-      "time": "13:00",
-      "title": "도교육청 TF팀 협의회",
-      "type": "businesstrip",
-      "scope": "연도중",
-      "priority": "normal",
-      "status": "todo",
-      "memo": "도교육청 방문",
-      "link": "",
-      "tags": [
-        "출장",
+        "TF팀",
         "협의회"
       ]
     }
