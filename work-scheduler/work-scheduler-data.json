@@ -159,6 +159,22 @@
     {
       "id": "sch-20260526-01",
       "date": "2026-05-26",
+      "time": "10:00",
+      "title": "도교육청 TF팀 협의회",
+      "type": "businesstrip",
+      "scope": "연도중",
+      "priority": "normal",
+      "status": "todo",
+      "memo": "외부 카페에서 진행, 회의자료 당일 배부",
+      "link": "",
+      "tags": [
+        "출장",
+        "협의회"
+      ]
+    },
+    {
+      "id": "sch-20260526-01",
+      "date": "2026-05-26",
       "time": "13:00",
       "title": "도교육청 TF팀 협의회",
       "type": "businesstrip",
