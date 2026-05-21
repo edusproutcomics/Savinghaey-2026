@@ -952,7 +952,9 @@
         </div>
       </section>
 
-      <div class="sch-layout">
+      <div class="sch-layout"
+        id="schedulerLayout">
+        
         <div class="sch-main-stack">
           <section class="sch-view" id="timelineView" aria-label="일렬 날짜 일정 목록">
             <div class="sch-day-list" id="timelineList"></div>
@@ -1315,7 +1317,7 @@
       function bindElements() {
         [
           "statFiscal", "statTasks", "statRemain", "statImportant", "statMonth",
-          "monthStrip", "taskSearch", "statusFilter", "btnClearSearch", "typeFilter",
+          "schedulerLayout", "monthStrip", "taskSearch", "statusFilter", "btnClearSearch", "typeFilter",
           "scheduleStatus", "hideEmptyDays", "dateJump", "btnGoDate", "btnToday",
           "timelineView", "timelineList", "calendarView", "calendarTitle", "calendarGrid",
           "btnPrevMonth", "btnNextMonth", "selectedTitle", "selectedMeta", "selectedList",
