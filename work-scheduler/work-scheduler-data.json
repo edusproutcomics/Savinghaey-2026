@@ -101,5 +101,57 @@
         "시작"
       ]
     }
+  ],
+  "tasks": [
+    {
+      "id": "fy2026-start-setup",
+      "date": "2026-05-20",
+      "time": "",
+      "title": "지방공무원 정보화연수 (1일차)",
+      "type": "system",
+      "scope": "연도중",
+      "priority": "normal",
+      "status": "doing",
+      "memo": "교육과학정보원",
+      "link": "",
+      "tags": [
+        "연수"
+      ]
+    }
+  ],
+  "tasks": [
+    {
+      "id": "fy2026-start-setup",
+      "date": "2026-05-21",
+      "time": "",
+      "title": "지방공무원 정보화연수 (2일차)",
+      "type": "system",
+      "scope": "연도중",
+      "priority": "normal",
+      "status": "doing",
+      "memo": "교육과학정보원",
+      "link": "",
+      "tags": [
+        "연수"
+      ]
+    }
+  ],
+  "tasks": [
+    {
+      "id": "fy2026-start-setup",
+      "date": "2026-05-22",
+      "time": "",
+      "title": "지방공무원 정보화연수 (3일차)",
+      "type": "system",
+      "scope": "연도중",
+      "priority": "normal",
+      "status": "doing",
+      "memo": "교육과학정보원",
+      "link": "",
+      "tags": [
+        "연수"
+      ]
+    }
   ]
+  
 }
