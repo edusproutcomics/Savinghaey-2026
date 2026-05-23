@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<!-- 삼체 트래커 (mood · sleep · attention) / author: 업무천재 고주무관 -->
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="color-scheme" content="light" />
+  <meta name="author" content="업무천재 고주무관" />
+  <meta name="description" content="기분(mood)·수면(sleep)·집중(attention) 세 축을 하루 단위로 기록하고 세 축의 상관계수까지 본인 데이터로 실측하는 개인용 자가추적 도구." />
+  <meta name="x-brand-title" content="삼체 트래커" />
+  <title>삼체 트래커 — mood · sleep · attention</title>
+
+  <link rel="icon" href="/static/savinghaey-favicon.ico" />
+  <link rel="stylesheet" href="/static/savinghaey-style.css?v=20260519-static-prefix" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+  <script src="/static/savinghaey-footer.js"></script>
+  <script src="/static/savinghaey-global-loader.js?v=20260519-static-prefix"></script>
+
+  <style>
+    /* 삼체 트래커 전용 — savinghaey 디자인 토큰 위에 얹는 최소 스타일 */
+    .tracker-lead { color: var(--text-secondary); margin: var(--space-3) 0 0; }
+
+    .tracker-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--space-4);
+    }
+    .tracker-grid .field { margin: 0; }
+    .tracker-grid .full { grid-column: 1 / -1; }
+    @media (max-width: 560px) { .tracker-grid { grid-template-columns: 1fr; } }
+
+    .rangerow { display: flex; align-items: center; gap: var(--space-3); }
+    .rangerow input[type="range"] { flex: 1; accent-color: var(--accent); }
+    .rangeval {
+      min-width: 36px;
+      text-align: right;
+      font-family: var(--font-mono);
+      font-variant-numeric: tabular-nums;
+      font-weight: 600;
+      font-size: var(--fs-sm);
+    }
+
+    .evt-field { display: flex; align-items: center; gap: 8px; }
+    .evt-field input { width: 16px; height: 16px; accent-color: var(--accent); }
+
+    .s-toggles {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-4);
+      margin-bottom: var(--space-3);
+      font-size: var(--fs-sm);
+    }
+    .s-toggles label { display: flex; align-items: center; gap: 6px; margin: 0; font-weight: 500; cursor: pointer; }
+    .s-toggles input { width: 16px; height: 16px; accent-color: var(--accent); }
+
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-3);
+      align-items: flex-end;
+      margin-bottom: var(--space-3);
+    }
+    .controls .field { margin: 0; min-width: 130px; }
+    .controls .field select {
+      width: 100%;
+      height: 36px;
+      padding: 0 8px;
+      background: var(--surface);
+      border: 1px solid var(--border-strong);
+      border-radius: var(--r-sm);
+      font-size: var(--fs-sm);
+      color: var(--text);
+    }
+
+    .method-toggle {
+      display: flex;
+      gap: var(--space-4);
+      margin-bottom: var(--space-3);
+      font-size: var(--fs-sm);
+    }
+    .method-toggle label { display: flex; align-items: center; gap: 6px; margin: 0; font-weight: 500; cursor: pointer; }
+    .method-toggle input { width: 16px; height: 16px; accent-color: var(--accent); }
+
+    .chart-note { margin: var(--space-3) 0 0; color: var(--text-muted); font-size: var(--fs-sm); }
+    .lag-best { margin: var(--space-3) 0 0; font-size: var(--fs-sm); }
+    .lag-best b { font-family: var(--font-mono); }
+
+    .corrgrid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: var(--space-3);
+    }
+    .corr {
+      padding: var(--space-3) var(--space-4);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--r-md);
+    }
+    .corr .pair { font-size: var(--fs-xs); color: var(--text-muted); }
+    .corr .r {
+      font-family: var(--font-mono);
+      font-size: var(--fs-xl);
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
+    }
+    .corr .desc { font-size: var(--fs-xs); color: var(--text-muted); }
+    .pos { color: var(--danger); }
+    .neg { color: var(--brand); }
+    .zero { color: var(--text-muted); }
+
+    #table { min-width: 680px; }
+    #table td.note { text-align: left !important; max-width: 220px; white-space: normal; }
+    #table tr.click { cursor: pointer; }
+    #table tr.click:hover { background: var(--surface-2); }
+    #table td.empty { color: var(--text-muted); text-align: center; padding: var(--space-5); }
+    .dot-evt { color: #7a5ca8; font-weight: 700; margin-right: 4px; }
+
+    .btn-mini {
+      height: 28px;
+      padding: 0 10px;
+      background: var(--surface);
+      border: 1px solid var(--border-strong);
+      border-radius: var(--r-sm);
+      font-family: var(--font-mono);
+      font-size: var(--fs-xs);
+      font-weight: 500;
+      color: var(--text);
+      cursor: pointer;
+    }
+    .btn-mini:hover { background: var(--surface-2); }
+  </style>
+</head>
+<body class="page-tracker">
+  <main class="container">
+    <p class="page-kicker">SELF-TRACKING</p>
+    <h1>삼체 트래커</h1>
+    <p class="lead tracker-lead">mood · sleep · attention 세 축을 하루 단위로 기록하고, 세 축이 서로 얼마나 끌어당기는지(상관계수)와 그 결합이 시간에 따라 어떻게 출렁이는지까지 본인 데이터로 실측합니다. 모든 기록은 이 브라우저에만 저장됩니다.</p>
+
+    <section class="section card-style" aria-labelledby="todayTitle">
+      <h2 id="todayTitle">오늘 기록</h2>
+      <div class="tracker-grid">
+        <div class="field">
+          <label for="f-date">날짜</label>
+          <input type="date" id="f-date" />
+        </div>
+        <div class="field">
+          <label for="f-sleep">수면시간 (시간)</label>
+          <input type="number" id="f-sleep" step="0.5" min="0" max="24" placeholder="예: 7.5" />
+        </div>
+        <div class="field full">
+          <label for="f-mood">기분 (mood) · −3 우울 ↔ 0 평상 ↔ +3 들뜸/경조증</label>
+          <div class="rangerow">
+            <input type="range" id="f-mood" min="-3" max="3" step="1" value="0" />
+            <span class="rangeval" id="v-mood">0</span>
+          </div>
+        </div>
+        <div class="field full">
+          <label for="f-attn">집중력 (attention) · 0 ~ 10</label>
+          <div class="rangerow">
+            <input type="range" id="f-attn" min="0" max="10" step="1" value="5" />
+            <span class="rangeval" id="v-attn">5</span>
+          </div>
+        </div>
+        <div class="field full">
+          <label for="f-sleepy">주간 졸림 (sleepiness) · 0 ~ 10</label>
+          <div class="rangerow">
+            <input type="range" id="f-sleepy" min="0" max="10" step="1" value="0" />
+            <span class="rangeval" id="v-sleepy">0</span>
+          </div>
+        </div>
+        <div class="field">
+          <label for="f-cat">탈력발작 횟수</label>
+          <input type="number" id="f-cat" step="1" min="0" placeholder="예: 0" />
+        </div>
+        <div class="field">
+          <label for="f-meds">복용 약물</label>
+          <input type="text" id="f-meds" placeholder="예: 각성제, 기분안정제" />
+        </div>
+        <div class="field full evt-field">
+          <input type="checkbox" id="f-event" />
+          <label for="f-event" style="margin:0">이 날을 사건으로 표시 (약 변경·특이사항 등 — 그래프에 세로선 표시)</label>
+        </div>
+        <div class="field full">
+          <label for="f-notes">메모</label>
+          <textarea id="f-notes" placeholder="컨디션, 사건, 트리거 등"></textarea>
+        </div>
+      </div>
+      <div class="btnrow">
+        <button class="btn primary" id="save">기록 저장 / 수정</button>
+        <button class="btn ghost" id="clearform">입력 초기화</button>
+      </div>
+    </section>
+
+    <section class="section card-style" aria-labelledby="chartTitle">
+      <h2 id="chartTitle">삼체 그래프</h2>
+      <div class="s-toggles" id="toggles"></div>
+      <canvas id="chart" height="220"></canvas>
+      <p class="chart-note">표시값은 각 축을 0~100으로 정규화한 값입니다. 보라색 점선은 사건으로 표시한 날입니다. 원자료는 아래 표에서 확인하세요.</p>
+    </section>
+
+    <section class="section card-style" aria-labelledby="phaseTitle">
+      <h2 id="phaseTitle">위상 공간 궤적</h2>
+      <div class="controls">
+        <div class="field">
+          <label for="ph-x">가로축 (X)</label>
+          <select id="ph-x"></select>
+        </div>
+        <div class="field">
+          <label for="ph-y">세로축 (Y)</label>
+          <select id="ph-y"></select>
+        </div>
+      </div>
+      <canvas id="phase" height="260"></canvas>
+      <p class="chart-note">두 축을 좌표로 삼아 하루를 한 점으로 찍고 날짜순으로 잇습니다. 점 크기는 수면시간, 색은 과거(연함)에서 현재(진함)로 갑니다. 이 곡선이 곧 당신의 '삼체 궤도'이며, 같은 자리를 반복해 맴도는 구간이 안정점입니다.</p>
+    </section>
+
+    <section class="section card-style" aria-labelledby="corrTitle">
+      <h2 id="corrTitle">세 축의 결합계수</h2>
+      <div class="method-toggle" id="method">
+        <label><input type="radio" name="method" value="pearson" checked> Pearson (선형)</label>
+        <label><input type="radio" name="method" value="spearman"> Spearman (순위·슬라이더에 더 적합)</label>
+      </div>
+      <div class="corrgrid" id="corr"></div>
+      <p class="chart-note">r &gt; 0: 같이 오른다 · r &lt; 0: 한쪽이 오르면 다른 쪽이 내린다 · 0 근처: 독립. 데이터 3개 이상부터 계산됩니다. 슬라이더는 순서척도라 Spearman이 더 정직합니다.</p>
+    </section>
+
+    <section class="section card-style" aria-labelledby="rollTitle">
+      <h2 id="rollTitle">결합의 시간 변화 (롤링 상관)</h2>
+      <div class="controls">
+        <div class="field">
+          <label for="rl-x">축 A</label>
+          <select id="rl-x"></select>
+        </div>
+        <div class="field">
+          <label for="rl-y">축 B</label>
+          <select id="rl-y"></select>
+        </div>
+        <div class="field">
+          <label for="rl-win">창 크기</label>
+          <select id="rl-win">
+            <option value="7">최근 7개</option>
+            <option value="14" selected>최근 14개</option>
+            <option value="30">최근 30개</option>
+          </select>
+        </div>
+      </div>
+      <canvas id="roll" height="200"></canvas>
+      <p class="chart-note">선택한 두 축의 상관을 최근 N개 기록 창으로 매일 다시 계산합니다. 선이 위아래로 출렁이면 두 축의 결합 세기가 시기마다 달라진다는 뜻입니다.</p>
+    </section>
+
+    <section class="section card-style" aria-labelledby="lagTitle">
+      <h2 id="lagTitle">시차 상관 (어느 축이 먼저 움직이나)</h2>
+      <div class="controls">
+        <div class="field">
+          <label for="lg-x">앞 축</label>
+          <select id="lg-x"></select>
+        </div>
+        <div class="field">
+          <label for="lg-y">뒤 축</label>
+          <select id="lg-y"></select>
+        </div>
+      </div>
+      <canvas id="lag" height="200"></canvas>
+      <p class="lag-best" id="lagBest"></p>
+      <p class="chart-note">앞 축을 −7~+7일 이동시켜 상관을 잽니다. +값이 가장 강하면 '앞 축'이 그만큼 먼저 변하고 '뒤 축'이 따라온다는 뜻입니다.</p>
+    </section>
+
+    <section class="section card-style" aria-labelledby="tableTitle">
+      <h2 id="tableTitle">기록 표</h2>
+      <div class="table-wrap"><table id="table" class="simple-table"></table></div>
+      <div class="btnrow">
+        <button class="btn ghost" id="export">CSV 내보내기</button>
+      </div>
+    </section>
+
+    <section class="section card-style" aria-labelledby="importTitle">
+      <h2 id="importTitle">CSV 가져오기</h2>
+      <div class="dropzone" id="drop">
+        <div class="dropzone-inner">
+          <span class="dz-title">여기로 CSV 파일을 끌어다 놓으세요</span>
+          <span class="dz-sub">또는 클릭해서 선택</span>
+        </div>
+      </div>
+      <input type="file" id="file" accept=".csv" hidden />
+    </section>
+
+    <section class="section card-style" aria-labelledby="backupTitle">
+      <h2 id="backupTitle">백업 / 복원 (JSON 전체)</h2>
+      <div class="btnrow">
+        <button class="btn ghost" id="jexport">JSON 백업 내보내기</button>
+      </div>
+      <div class="dropzone" id="jdrop">
+        <div class="dropzone-inner">
+          <span class="dz-title">여기로 JSON 백업 파일을 끌어다 놓으세요</span>
+          <span class="dz-sub">또는 클릭해서 선택 · 같은 날짜는 덮어씁니다</span>
+        </div>
+      </div>
+      <input type="file" id="jfile" accept=".json" hidden />
+    </section>
+  </main>
+
+<script>
+const KEY='threebody_records_v1';
+let records=load();
+let chart=null, phaseChart=null, rollChart=null, lagChart=null;
+let editing=null;
+let corrMethod='pearson';
+
+const SERIES=[
+  {key:'mood',label:'기분',color:'#d9534f',min:-3,max:3,def:true},
+  {key:'sleepHours',label:'수면',color:'#4a7fb5',min:0,max:12,def:true},
+  {key:'attention',label:'집중',color:'#3f9d6e',min:0,max:10,def:true},
+  {key:'sleepiness',label:'졸림',color:'#c98a2b',min:0,max:10,def:false},
+  {key:'cataplexy',label:'탈력발작',color:'#7a5ca8',min:0,max:5,def:false},
+];
+const PAIRS=[
+  ['mood','attention'],['mood','sleepHours'],['sleepHours','attention'],
+  ['sleepiness','attention'],['sleepiness','mood']
+];
+const NAME={mood:'기분',sleepHours:'수면',attention:'집중',sleepiness:'졸림',cataplexy:'탈력발작'};
+const SMETA={};SERIES.forEach(s=>SMETA[s.key]=s);
+
+function load(){try{return JSON.parse(localStorage.getItem(KEY))||[]}catch(e){return[]}}
+function save(){localStorage.setItem(KEY,JSON.stringify(records))}
+function n(v){if(v===''||v===null||v===undefined)return null;const x=parseFloat(v);return isNaN(x)?null:x}
+function todayStr(){const d=new Date();const z=x=>String(x).padStart(2,'0');return d.getFullYear()+'-'+z(d.getMonth()+1)+'-'+z(d.getDate())}
+function esc(s){return String(s===null||s===undefined?'':s).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
+function dateAdd(s,days){const d=new Date(s+'T00:00:00');d.setDate(d.getDate()+days);const z=x=>String(x).padStart(2,'0');return d.getFullYear()+'-'+z(d.getMonth()+1)+'-'+z(d.getDate())}
+
+function upsert(r){
+  const i=records.findIndex(x=>x.date===r.date);
+  if(i>=0)records[i]=r;else records.push(r);
+  records.sort((a,b)=>a.date<b.date?-1:1);
+  save();render();
+}
+function del(date){if(!confirm(date+' 기록을 삭제할까요?'))return;records=records.filter(r=>r.date!==date);save();render()}
+
+function readForm(){
+  return{
+    date:document.getElementById('f-date').value||todayStr(),
+    mood:n(document.getElementById('f-mood').value),
+    sleepHours:n(document.getElementById('f-sleep').value),
+    attention:n(document.getElementById('f-attn').value),
+    sleepiness:n(document.getElementById('f-sleepy').value),
+    cataplexy:n(document.getElementById('f-cat').value),
+    meds:document.getElementById('f-meds').value.trim(),
+    event:document.getElementById('f-event').checked,
+    notes:document.getElementById('f-notes').value.trim()
+  };
+}
+function fillForm(r){
+  document.getElementById('f-date').value=r.date;
+  setRange('f-mood','v-mood',r.mood??0);
+  document.getElementById('f-sleep').value=r.sleepHours??'';
+  setRange('f-attn','v-attn',r.attention??5);
+  setRange('f-sleepy','v-sleepy',r.sleepiness??0);
+  document.getElementById('f-cat').value=r.cataplexy??'';
+  document.getElementById('f-meds').value=r.meds||'';
+  document.getElementById('f-event').checked=!!r.event;
+  document.getElementById('f-notes').value=r.notes||'';
+}
+function clearForm(){fillForm({date:todayStr(),mood:0,attention:5,sleepiness:0,event:false});editing=null}
+function setRange(id,vid,val){const e=document.getElementById(id);e.value=val;document.getElementById(vid).textContent=val}
+
+function norm(v,mn,mx){if(v===null||isNaN(v))return null;return Math.max(0,Math.min(100,(v-mn)/(mx-mn)*100))}
+function checkedKeys(){return[...document.querySelectorAll('.s-toggle:checked')].map(c=>c.value)}
+
+/* ---- 상관 계산: Pearson + Spearman(순위 변환) ---- */
+function pearson(xs,ys){
+  const m=xs.length;if(m<3)return null;
+  const mx=xs.reduce((a,b)=>a+b,0)/m,my=ys.reduce((a,b)=>a+b,0)/m;
+  let nu=0,dx=0,dy=0;
+  for(let i=0;i<m;i++){const a=xs[i]-mx,b=ys[i]-my;nu+=a*b;dx+=a*a;dy+=b*b}
+  if(dx===0||dy===0)return null;
+  return nu/Math.sqrt(dx*dy);
+}
+function rankify(a){
+  const idx=a.map((v,i)=>[v,i]).sort((x,y)=>x[0]-y[0]);
+  const r=new Array(a.length);let i=0;
+  while(i<idx.length){
+    let j=i;while(j+1<idx.length&&idx[j+1][0]===idx[i][0])j++;
+    const avg=(i+j)/2+1;
+    for(let k=i;k<=j;k++)r[idx[k][1]]=avg;
+    i=j+1;
+  }
+  return r;
+}
+function spearman(xs,ys){if(xs.length<3)return null;return pearson(rankify(xs),rankify(ys))}
+function corr(xs,ys,method){return method==='spearman'?spearman(xs,ys):pearson(xs,ys)}
+
+function paired(k1,k2){const xs=[],ys=[];records.forEach(r=>{const a=r[k1],b=r[k2];if(a!==null&&b!==null&&!isNaN(a)&&!isNaN(b)){xs.push(+a);ys.push(+b)}});return[xs,ys]}
+function desc(r){const a=Math.abs(r);const s=r>0?'양(+) ':'음(−) ';if(a<.2)return'거의 독립';if(a<.4)return s+'약한 결합';if(a<.6)return s+'중간 결합';return s+'강한 결합'}
+
+/* ---- 셀렉트 채우기 ---- */
+function fillSeriesSelect(id,defKey){
+  const el=document.getElementById(id);if(el.options.length)return;
+  SERIES.forEach(s=>{const o=document.createElement('option');o.value=s.key;o.textContent=s.label;if(s.key===defKey)o.selected=true;el.appendChild(o)});
+}
+function initSelects(){
+  fillSeriesSelect('ph-x','mood');fillSeriesSelect('ph-y','attention');
+  fillSeriesSelect('rl-x','mood');fillSeriesSelect('rl-y','attention');
+  fillSeriesSelect('lg-x','sleepHours');fillSeriesSelect('lg-y','mood');
+}
+
+/* ---- 토글(시리즈 표시) ---- */
+function renderToggles(){
+  const box=document.getElementById('toggles');
+  if(box.children.length)return;
+  SERIES.forEach(s=>{
+    const l=document.createElement('label');
+    l.innerHTML='<input type="checkbox" class="s-toggle" value="'+s.key+'" '+(s.def?'checked':'')+'><span style="color:'+s.color+'">●</span> '+s.label;
+    box.appendChild(l);
+  });
+  box.addEventListener('change',renderChart);
+}
+
+/* ---- 메인 그래프 + 사건 세로선 플러그인 ---- */
+const eventLinePlugin={
+  id:'eventlines',
+  afterDraw(c){
+    const opt=c.options.plugins.eventlines;
+    if(!opt||!opt.indices||!opt.indices.length)return;
+    const x=c.scales.x;const ctx=c.ctx;const{top,bottom}=c.chartArea;
+    ctx.save();ctx.lineWidth=1;ctx.setLineDash([4,3]);ctx.strokeStyle='rgba(122,92,168,0.7)';
+    opt.indices.forEach(i=>{const px=x.getPixelForValue(i);ctx.beginPath();ctx.moveTo(px,top);ctx.lineTo(px,bottom);ctx.stroke()});
+    ctx.restore();
+  }
+};
+Chart.register(eventLinePlugin);
+
+function renderChart(){
+  const labels=records.map(r=>r.date);
+  const keys=checkedKeys();
+  const ds=SERIES.filter(s=>keys.includes(s.key)).map(s=>({
+    label:s.label,borderColor:s.color,backgroundColor:s.color,
+    data:records.map(r=>norm(r[s.key],s.min,s.max)),
+    spanGaps:true,tension:.3,pointRadius:3,borderWidth:2
+  }));
+  const evIdx=records.map((r,i)=>r.event?i:-1).filter(i=>i>=0);
+  if(chart)chart.destroy();
+  chart=new Chart(document.getElementById('chart'),{
+    type:'line',
+    data:{labels,datasets:ds},
+    options:{responsive:true,interaction:{mode:'index',intersect:false},
+      scales:{y:{min:0,max:100,title:{display:true,text:'정규화 0~100'}}},
+      plugins:{legend:{position:'bottom'},eventlines:{indices:evIdx}}}
+  });
+}
+
+/* ---- 위상 공간 궤적 ---- */
+function colorAt(t){return'rgba(74,127,181,'+(0.2+0.8*t).toFixed(2)+')'}
+function renderPhase(){
+  const kx=document.getElementById('ph-x').value,ky=document.getElementById('ph-y').value;
+  const mx=SMETA[kx],my=SMETA[ky];
+  const pts=[];
+  records.forEach(r=>{const a=r[kx],b=r[ky];if(a!==null&&b!==null&&!isNaN(a)&&!isNaN(b)){
+    const sl=r.sleepHours;const rad=sl!==null&&!isNaN(sl)?Math.max(3,Math.min(11,3+(+sl/12)*8)):4;
+    pts.push({x:+a,y:+b,date:r.date,r:rad});
+  }});
+  const cols=pts.map((p,i)=>colorAt(pts.length>1?i/(pts.length-1):1));
+  if(pts.length)cols[pts.length-1]='#d9534f';
+  if(phaseChart)phaseChart.destroy();
+  phaseChart=new Chart(document.getElementById('phase'),{
+    type:'scatter',
+    data:{datasets:[{
+      label:'궤적',data:pts.map(p=>({x:p.x,y:p.y})),showLine:true,
+      borderColor:'rgba(120,120,120,0.35)',borderWidth:1,fill:false,tension:0,
+      pointBackgroundColor:cols,pointBorderColor:cols,
+      pointRadius:pts.map(p=>p.r),pointHoverRadius:pts.map(p=>p.r+2)
+    }]},
+    options:{responsive:true,
+      scales:{x:{title:{display:true,text:mx.label},suggestedMin:mx.min,suggestedMax:mx.max},
+        y:{title:{display:true,text:my.label},suggestedMin:my.min,suggestedMax:my.max}},
+      plugins:{legend:{display:false},
+        tooltip:{callbacks:{label:c=>{const p=pts[c.dataIndex];return p.date+'  ('+mx.label+' '+p.x+', '+my.label+' '+p.y+')'}}}}}
+  });
+}
+
+/* ---- 정적 결합계수 카드 ---- */
+function renderCorr(){
+  const box=document.getElementById('corr');box.innerHTML='';
+  PAIRS.forEach(([a,b])=>{
+    const[xs,ys]=paired(a,b);const r=corr(xs,ys,corrMethod);
+    const cls=r===null?'zero':(r>0.05?'pos':(r<-0.05?'neg':'zero'));
+    const div=document.createElement('div');div.className='corr';
+    div.innerHTML='<div class="pair">'+NAME[a]+' × '+NAME[b]+'</div>'+
+      '<div class="r '+cls+'">'+(r===null?'—':r.toFixed(2))+'</div>'+
+      '<div class="desc">'+(r===null?'데이터 부족 (n='+xs.length+')':desc(r)+' · n='+xs.length)+'</div>';
+    box.appendChild(div);
+  });
+}
+
+/* ---- 롤링 상관 (최근 N개 기록 창) ---- */
+function renderRoll(){
+  const k1=document.getElementById('rl-x').value,k2=document.getElementById('rl-y').value;
+  const win=parseInt(document.getElementById('rl-win').value,10);
+  const labels=[],data=[];
+  for(let i=0;i<records.length;i++){
+    labels.push(records[i].date);
+    if(i+1<win){data.push(null);continue}
+    const slice=records.slice(i+1-win,i+1);const xs=[],ys=[];
+    slice.forEach(r=>{const a=r[k1],b=r[k2];if(a!==null&&b!==null&&!isNaN(a)&&!isNaN(b)){xs.push(+a);ys.push(+b)}});
+    data.push(xs.length>=3?corr(xs,ys,corrMethod):null);
+  }
+  if(rollChart)rollChart.destroy();
+  rollChart=new Chart(document.getElementById('roll'),{
+    type:'line',
+    data:{labels,datasets:[{label:SMETA[k1].label+' × '+SMETA[k2].label,
+      data,borderColor:'#4a7fb5',backgroundColor:'#4a7fb5',spanGaps:false,tension:.3,pointRadius:2,borderWidth:2}]},
+    options:{responsive:true,interaction:{mode:'index',intersect:false},
+      scales:{y:{min:-1,max:1,title:{display:true,text:'상관계수 r'}}},
+      plugins:{legend:{position:'bottom'}}}
+  });
+}
+
+/* ---- 시차 상관 ---- */
+function renderLag(){
+  const k1=document.getElementById('lg-x').value,k2=document.getElementById('lg-y').value;
+  const map={};records.forEach(r=>map[r.date]=r);
+  const maxLag=7;const labels=[],data=[],colors=[];let best=null;
+  for(let L=-maxLag;L<=maxLag;L++){
+    const xs=[],ys=[];
+    records.forEach(r=>{const a=r[k1];const p=map[dateAdd(r.date,L)];
+      if(p){const b=p[k2];if(a!==null&&b!==null&&!isNaN(a)&&!isNaN(b)){xs.push(+a);ys.push(+b)}}});
+    const r=xs.length>=3?corr(xs,ys,corrMethod):null;
+    labels.push((L>0?'+':'')+L);data.push(r===null?0:r);
+    colors.push(r===null?'rgba(150,150,150,0.3)':(r>0?'#d9534f':'#4a7fb5'));
+    if(r!==null&&(best===null||Math.abs(r)>Math.abs(best.r)))best={lag:L,r,n:xs.length};
+  }
+  if(lagChart)lagChart.destroy();
+  lagChart=new Chart(document.getElementById('lag'),{
+    type:'bar',
+    data:{labels,datasets:[{label:'r (시차일)',data,backgroundColor:colors}]},
+    options:{responsive:true,scales:{y:{min:-1,max:1,title:{display:true,text:'상관계수 r'}},
+      x:{title:{display:true,text:'시차(일) · '+SMETA[k1].label+' 기준'}}},
+      plugins:{legend:{display:false}}}
+  });
+  const el=document.getElementById('lagBest');
+  if(!best){el.textContent='시차 상관을 계산하기에 데이터가 부족합니다 (각 시차당 3개 이상 필요).';return}
+  if(best.lag===0)el.innerHTML='가장 강한 결합은 <b>같은 날(0일)</b>입니다 ('+SMETA[k1].label+' × '+SMETA[k2].label+', r=<b>'+best.r.toFixed(2)+'</b>, n='+best.n+'). 시차 효과는 약합니다.';
+  else if(best.lag>0)el.innerHTML='<b>'+SMETA[k1].label+'</b>이(가) 변하면 약 <b>'+best.lag+'일 뒤</b> <b>'+SMETA[k2].label+'</b>이(가) 가장 강하게 따라옵니다 (r=<b>'+best.r.toFixed(2)+'</b>, n='+best.n+').';
+  else el.innerHTML='<b>'+SMETA[k2].label+'</b>이(가) 변하면 약 <b>'+(-best.lag)+'일 뒤</b> <b>'+SMETA[k1].label+'</b>이(가) 가장 강하게 따라옵니다 (r=<b>'+best.r.toFixed(2)+'</b>, n='+best.n+').';
+}
+
+/* ---- 표 ---- */
+function renderTable(){
+  const t=document.getElementById('table');
+  if(!records.length){t.innerHTML='<tr><td class="empty" colspan="9">아직 기록이 없습니다. 위에서 첫 기록을 저장하면 측정 가능한 기간이 시작됩니다.</td></tr>';return}
+  let h='<tr><th>날짜</th><th>기분</th><th>수면</th><th>집중</th><th>졸림</th><th>탈력발작</th><th>약물</th><th>메모</th><th></th></tr>';
+  records.slice().reverse().forEach(r=>{
+    h+='<tr class="click" data-d="'+esc(r.date)+'">'+
+      '<td>'+(r.event?'<span class="dot-evt">●</span>':'')+esc(r.date)+'</td>'+
+      '<td>'+esc(r.mood)+'</td>'+
+      '<td>'+esc(r.sleepHours)+'</td>'+
+      '<td>'+esc(r.attention)+'</td>'+
+      '<td>'+esc(r.sleepiness)+'</td>'+
+      '<td>'+esc(r.cataplexy)+'</td>'+
+      '<td>'+esc(r.meds)+'</td>'+
+      '<td class="note">'+esc(r.notes)+'</td>'+
+      '<td><button class="btn-mini" data-del="'+esc(r.date)+'">삭제</button></td></tr>';
+  });
+  t.innerHTML=h;
+  t.querySelectorAll('tr.click').forEach(tr=>tr.addEventListener('click',e=>{
+    if(e.target.dataset.del)return;
+    const r=records.find(x=>x.date===tr.dataset.d);if(r){fillForm(r);editing=r.date;window.scrollTo({top:0,behavior:'smooth'})}
+  }));
+  t.querySelectorAll('[data-del]').forEach(b=>b.addEventListener('click',e=>{e.stopPropagation();del(b.dataset.del)}));
+}
+
+function render(){renderToggles();renderChart();renderPhase();renderCorr();renderRoll();renderLag();renderTable()}
+
+/* ---- CSV ---- */
+function toCSV(){
+  const cols=['date','mood','sleepHours','sleepiness','cataplexy','attention','meds','event','notes'];
+  const escCsv=s=>'"'+String(s===null||s===undefined?'':s).replace(/"/g,'""')+'"';
+  return[cols.join(',')].concat(records.map(r=>cols.map(c=>escCsv(r[c])).join(','))).join('\n');
+}
+function downloadCSV(){
+  const blob=new Blob(['\ufeff'+toCSV()],{type:'text/csv;charset=utf-8'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);
+  a.download='삼체_기록_'+todayStr()+'.csv';a.click();
+}
+function parseCSV(text){
+  const rows=[];let row=[],cur='',q=false;
+  for(let i=0;i<text.length;i++){const c=text[i];
+    if(q){if(c==='"'){if(text[i+1]==='"'){cur+='"';i++}else q=false}else cur+=c}
+    else{if(c==='"')q=true;else if(c===','){row.push(cur);cur=''}
+      else if(c==='\n'){row.push(cur);rows.push(row);row=[];cur=''}
+      else if(c==='\r'){}else cur+=c}}
+  if(cur!==''||row.length){row.push(cur);rows.push(row)}
+  return rows;
+}
+function truthy(v){const s=String(v).trim().toLowerCase();return s==='true'||s==='1'||s==='y'||s==='yes'}
+function importCSV(text){
+  const rows=parseCSV(text.replace(/^\ufeff/,'')).filter(r=>r.length>1);
+  if(!rows.length)return;
+  const head=rows[0].map(h=>h.trim());
+  let added=0;
+  rows.slice(1).forEach(cells=>{
+    const o={};head.forEach((h,i)=>o[h]=cells[i]!==undefined?cells[i]:'');
+    if(!o.date)return;
+    upsertSilent({date:o.date.trim(),mood:n(o.mood),sleepHours:n(o.sleepHours),
+      sleepiness:n(o.sleepiness),cataplexy:n(o.cataplexy),attention:n(o.attention),
+      meds:(o.meds||'').trim(),event:truthy(o.event),notes:(o.notes||'').trim()});
+    added++;
+  });
+  save();render();alert(added+'개 기록을 가져왔습니다.');
+}
+function upsertSilent(r){const i=records.findIndex(x=>x.date===r.date);if(i>=0)records[i]=r;else records.push(r);records.sort((a,b)=>a.date<b.date?-1:1)}
+
+/* ---- JSON 백업/복원 ---- */
+function downloadJSON(){
+  const blob=new Blob([JSON.stringify(records,null,2)],{type:'application/json;charset=utf-8'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);
+  a.download='삼체_백업_'+todayStr()+'.json';a.click();
+}
+function importJSON(text){
+  let arr;try{arr=JSON.parse(text)}catch(e){alert('JSON을 읽을 수 없습니다.');return}
+  if(!Array.isArray(arr)){alert('백업 형식이 올바르지 않습니다.');return}
+  let added=0;
+  arr.forEach(r=>{if(r&&r.date){upsertSilent({date:String(r.date).trim(),mood:n(r.mood),sleepHours:n(r.sleepHours),
+    sleepiness:n(r.sleepiness),cataplexy:n(r.cataplexy),attention:n(r.attention),
+    meds:(r.meds||'').trim?(r.meds||'').trim():'',event:!!r.event,notes:(r.notes||'').trim?(r.notes||'').trim():''});added++}});
+  save();render();alert(added+'개 기록을 복원했습니다.');
+}
+
+/* ---- events ---- */
+['f-mood:v-mood','f-attn:v-attn','f-sleepy:v-sleepy'].forEach(p=>{
+  const[id,vid]=p.split(':');
+  document.getElementById(id).addEventListener('input',e=>document.getElementById(vid).textContent=e.target.value);
+});
+document.getElementById('save').addEventListener('click',()=>{const r=readForm();if(!r.date){alert('날짜를 입력하세요');return}upsert(r);clearForm()});
+document.getElementById('clearform').addEventListener('click',clearForm);
+document.getElementById('export').addEventListener('click',downloadCSV);
+document.getElementById('jexport').addEventListener('click',downloadJSON);
+
+document.querySelectorAll('input[name="method"]').forEach(el=>el.addEventListener('change',e=>{corrMethod=e.target.value;renderCorr();renderRoll();renderLag()}));
+['ph-x','ph-y'].forEach(id=>document.getElementById(id).addEventListener('change',renderPhase));
+['rl-x','rl-y','rl-win'].forEach(id=>document.getElementById(id).addEventListener('change',renderRoll));
+['lg-x','lg-y'].forEach(id=>document.getElementById(id).addEventListener('change',renderLag));
+
+// CSV 드래그앤드롭
+const drop=document.getElementById('drop'),file=document.getElementById('file');
+drop.addEventListener('click',()=>file.click());
+file.addEventListener('change',e=>{const f=e.target.files[0];if(f){const rd=new FileReader();rd.onload=()=>importCSV(rd.result);rd.readAsText(f,'utf-8')}});
+['dragenter','dragover'].forEach(ev=>drop.addEventListener(ev,e=>{e.preventDefault();drop.classList.add('is-active')}));
+['dragleave','drop'].forEach(ev=>drop.addEventListener(ev,e=>{e.preventDefault();drop.classList.remove('is-active')}));
+drop.addEventListener('drop',e=>{const f=e.dataTransfer.files[0];if(f){const rd=new FileReader();rd.onload=()=>importCSV(rd.result);rd.readAsText(f,'utf-8')}});
+
+// JSON 드래그앤드롭
+const jdrop=document.getElementById('jdrop'),jfile=document.getElementById('jfile');
+jdrop.addEventListener('click',()=>jfile.click());
+jfile.addEventListener('change',e=>{const f=e.target.files[0];if(f){const rd=new FileReader();rd.onload=()=>importJSON(rd.result);rd.readAsText(f,'utf-8')}});
+['dragenter','dragover'].forEach(ev=>jdrop.addEventListener(ev,e=>{e.preventDefault();jdrop.classList.add('is-active')}));
+['dragleave','drop'].forEach(ev=>jdrop.addEventListener(ev,e=>{e.preventDefault();jdrop.classList.remove('is-active')}));
+jdrop.addEventListener('drop',e=>{const f=e.dataTransfer.files[0];if(f){const rd=new FileReader();rd.onload=()=>importJSON(rd.result);rd.readAsText(f,'utf-8')}});
+
+// init
+initSelects();
+clearForm();
+render();
+</script>
+</body>
+</html>
